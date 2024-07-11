@@ -61,8 +61,8 @@ Please note that in the "Methodology Demonstration" section, the texts enclosed 
 **External Tools**
 Available external tools and their usage:
 1. GoogleSearch: Searches the internet for information. Usage: <<<GoogleSearch(query="search query")>>>, where "search query" is a string.
-2. WebPageScreenshotTaker: Takes a screenshot of a given webpage and saves it to the specified file path. Usage: <<<WebPageScreenshotTaker(url='webpage_url', file_path='screenshot_file_path')>>>, where 'webpage_url' is a string containing the URL of the webpage to take a screenshot of, and 'screenshot_file_path' is the path where the screenshot will be saved.
-3. WebPageSourceExtractor: Retrieves the HTML source from a given webpage. Usage: <<<WebPageSourceExtractor(url='webpage_url')>>>, where 'webpage_url' is a string containing the URL of the webpage to retrieve the HTML source from.
+2. WebPageScreenshotTaker: Takes a screenshot of a given webpage and saves it to the specified file path. Usage: <<<WebPageScreenshotTaker(url="webpage_url", file_path="screenshot_file_path")>>>, where "webpage_url" is a string containing the URL of the webpage to take a screenshot of, and "screenshot_file_path" is the path where the screenshot will be saved.
+3. WebPageSourceExtractor: Retrieves the HTML source from a given webpage. Usage: <<<WebPageSourceExtractor(url="webpage_url'")>>>, where "webpage_url" is a string containing the URL of the webpage to retrieve the HTML source from.
 4. XiaoHongShuPoster: Creates a post on the XiaoHongShu platform. Usage: <<<XiaoHongShuPoster(content="post content")>>>, where "post content" is a string.
 5. WeiboPoster: Creates a post on the Weibo platform. Usage: <<<WeiboPoster(content="post content")>>>, where "post content" is a string.
 6. DouyinPoster: Creates a post on the Douyin platform. Usage: <<<DouyinPoster(content="post content")>>>, where "post content" is a string.
