@@ -5,7 +5,7 @@ from autobyteus.llm.rpa.gemini_llm import GeminiLLM
 from autobyteus.llm.rpa.chatgpt_llm import ChatGPTLLM
 from autobyteus.tools.google_search_ui import GoogleSearch
 from autobyteus.tools.webpage_screenshot_taker import WebPageScreenshotTaker
-from autobyteus.tools.webpage_source_extractor import WebPageSourceExtractor
+from autobyteus.tools.webpage_reader import WebPageReader
 from autobyteus.prompt.prompt_builder import PromptBuilder
 from autobyteus.llm.claude_models import ClaudeModel
 
@@ -15,19 +15,18 @@ async def main():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     prompt_file = os.path.join(current_dir, "movie_review_creator.prompt")
     
-    prompt_builder = PromptBuilder.with_template(prompt_file)
-    prompt = prompt_builder.variables(movie_topic="encouraging movie for students").build()
+    prompt_builder = PromptBuilder.from_template(prompt_file).set_variable_value(name="movie_topic", value="encouraging movie for students")
 
-    #llm = ClaudeChatLLM(ClaudeModel.CLAUDE_3_OPUS)
-    llm = GeminiLLM()
+    llm = ClaudeChatLLM(ClaudeModel.CLAUDE_3_OPUS)
+    #llm = GeminiLLM()
     #llm = ChatGPTLLM(model="Default")
     tools = [
         GoogleSearch(),
         WebPageScreenshotTaker(),
-        WebPageSourceExtractor()
+        WebPageReader()
     ]
 
-    agent = Agent(role=role, prompt=prompt, llm=llm, tools=tools)
+    agent = Agent(role=role, prompt_builder= prompt_builder, llm=llm, tools=tools)
     await agent.run()
 
 if __name__ == "__main__":
