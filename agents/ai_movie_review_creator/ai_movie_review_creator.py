@@ -13,11 +13,11 @@ from autobyteus.llm.claude_models import ClaudeModel
 async def main():
     role = "AI Movie Review Creator"
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    prompt_file = os.path.join(current_dir, "movie_review_creator.prompt")
+    prompt_file = os.path.join(current_dir, "simpler.prompt")
     
     prompt_builder = PromptBuilder.from_template(prompt_file).set_variable_value(name="movie_topic", value="encouraging movie for students")
 
-    llm = ClaudeChatLLM(ClaudeModel.CLAUDE_3_OPUS)
+    llm = ClaudeChatLLM(ClaudeModel.CLAUDE_3_5_SONNET)
     #llm = GeminiLLM()
     #llm = ChatGPTLLM(model="Default")
     tools = [
