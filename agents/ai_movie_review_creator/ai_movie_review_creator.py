@@ -26,7 +26,7 @@ async def main():
         GoogleSearch(),
         WebPageReader(),
         ImageDownloader(),
-        WeiboPoster(weibo_account_name="humphreyZheng")
+        WeiboPoster(weibo_account_name="RyanZhengHaliluya")
     ]
 
     agent = Agent(role=role, prompt_builder= prompt_builder, llm=llm, tools=tools)
