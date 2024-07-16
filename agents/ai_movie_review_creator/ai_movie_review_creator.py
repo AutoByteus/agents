@@ -8,6 +8,7 @@ from autobyteus.tools.webpage_screenshot_taker import WebPageScreenshotTaker
 from autobyteus.tools.webpage_reader import WebPageReader
 from autobyteus.tools.image_downloader import ImageDownloader
 from autobyteus.tools.weibo.weibo_poster import WeiboPoster
+from autobyteus.tools.weibo.reviewed_movies_retriever import ReviewedMoviesRetriever
 from autobyteus.prompt.prompt_builder import PromptBuilder
 from autobyteus.llm.claude_models import ClaudeModel
 
@@ -15,7 +16,7 @@ from autobyteus.llm.claude_models import ClaudeModel
 async def main():
     role = "AI Movie Review Creator"
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    prompt_file = os.path.join(current_dir, "simpler_xml_v2.prompt")
+    prompt_file = os.path.join(current_dir, "simpler_xml_v3_retrieval.prompt")
     
     prompt_builder = PromptBuilder.from_template(prompt_file).set_variable_value(name="movie_topic", value="encouraging movie for students")
 
@@ -24,6 +25,7 @@ async def main():
     #llm = ChatGPTLLM(model="Default")
     tools = [
         GoogleSearch(),
+        ReviewedMoviesRetriever(),
         WebPageReader(),
         ImageDownloader(),
         WeiboPoster(weibo_account_name="RyanZhengHaliluya")
