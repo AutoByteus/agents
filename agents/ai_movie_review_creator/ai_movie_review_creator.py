@@ -18,7 +18,7 @@ async def main():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     prompt_file = os.path.join(current_dir, "simpler_xml_v3_retrieval.prompt")
     
-    prompt_builder = PromptBuilder.from_template(prompt_file).set_variable_value(name="movie_topic", value="encouraging movie for students")
+    prompt_builder = PromptBuilder.from_template(prompt_file).set_variable_value(name="movie_topic", value="encouraging movies for education")
 
     llm = ClaudeChatLLM(ClaudeModel.CLAUDE_3_5_SONNET)
     #llm = GeminiLLM()
@@ -28,7 +28,7 @@ async def main():
         ReviewedMoviesRetriever(),
         WebPageReader(),
         ImageDownloader(),
-        WeiboPoster(weibo_account_name="RyanZhengHaliluya")
+        WeiboPoster(weibo_account_name="Normy-光影旅程")
     ]
 
     agent = Agent(role=role, prompt_builder= prompt_builder, llm=llm, tools=tools)
