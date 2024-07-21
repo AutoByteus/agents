@@ -7,8 +7,8 @@ from autobyteus.tools.google_search_ui import GoogleSearch
 from autobyteus.tools.webpage_screenshot_taker import WebPageScreenshotTaker
 from autobyteus.tools.webpage_reader import WebPageReader
 from autobyteus.tools.image_downloader import ImageDownloader
-from autobyteus.tools.weibo.weibo_poster import WeiboPoster
-from autobyteus.tools.weibo.reviewed_movies_retriever import ReviewedMoviesRetriever
+from autobyteus.tools.social_media_poster.weibo.weibo_poster import WeiboPoster
+from autobyteus.tools.social_media_poster.weibo.reviewed_movies_retriever import ReviewedMoviesRetriever
 from autobyteus.prompt.prompt_builder import PromptBuilder
 from autobyteus.llm.claude_models import ClaudeModel
 
