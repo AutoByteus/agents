@@ -3,12 +3,12 @@
 import os
 import logging
 import asyncio
-from autobyteus.agent.agent import Agent
+from autobyteus.agent.agent import StandaloneAgent
 from autobyteus.llm.rpa.claudechat_llm import ClaudeChatLLM
 from autobyteus.llm.rpa.gemini_llm import GeminiLLM
-from autobyteus.llm.rpa.groq_llm import GroqLLM, GroqModel
+from autobyteus.llm.rpa.groq_llm import GroqLLM
 from autobyteus.llm.rpa.chatgpt_llm import ChatGPTLLM
-from autobyteus.llm.rpa.mistral_llm import MistralLLM, MistralModel
+from autobyteus.llm.rpa.mistral_llm import MistralLLM, 
 from autobyteus.tools.browser.standalone.google_search_ui import GoogleSearch
 from autobyteus.tools.browser.standalone.webpage_screenshot_taker import WebPageScreenshotTaker
 from autobyteus.tools.browser.standalone.webpage_reader import WebPageReader, CleaningMode
@@ -18,7 +18,7 @@ from autobyteus.tools.social_media_poster.xiaohongshu.xiaohongshu_poster import 
 from autobyteus.tools.social_media_poster.xiaohongshu.reviewed_books_retriever import ReviewedBooksRetriever
 from autobyteus.tools.social_media_poster.weibo.reviewed_movies_retriever import ReviewedMoviesRetriever
 from autobyteus.prompt.prompt_builder import PromptBuilder
-from autobyteus.llm.claude_models import ClaudeModel
+from autobyteus.llm.models import LLMModel
 
 def setup_logger():
     logger = logging.getLogger()
@@ -54,7 +54,7 @@ async def main():
     
     prompt_builder = PromptBuilder.from_template(prompt_file).set_variable_value(name="book_topic", value="encouraging book for education")
 
-    llm = ClaudeChatLLM(ClaudeModel.CLAUDE_3_5_SONNET)
+    llm = ClaudeChatLLM(LLMModel.CLAUDE_3_5_SONNET)
     #llm = GeminiLLM()
     #llm = ChatGPTLLM(model="Default")
     #llm = GroqLLM(model=GroqModel.LLAMA_3_1_70B_VERSATILE)
@@ -68,7 +68,7 @@ async def main():
     ]
 
     logger.info("Initializing Agent")
-    agent = Agent(role=role, prompt_builder=prompt_builder, llm=llm, tools=tools)
+    agent = StandaloneAgent(role=role, prompt_builder=prompt_builder, llm=llm, tools=tools)
     
     logger.info("Running Agent")
     await agent.run()
