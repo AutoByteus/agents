@@ -8,7 +8,7 @@ from autobyteus.llm.rpa.claudechat_llm import ClaudeChatLLM
 from autobyteus.llm.rpa.gemini_llm import GeminiLLM
 from autobyteus.llm.rpa.groq_llm import GroqLLM
 from autobyteus.llm.rpa.chatgpt_llm import ChatGPTLLM
-from autobyteus.llm.rpa.mistral_llm import MistralLLM, 
+from autobyteus.llm.rpa.mistral_llm import MistralLLM
 from autobyteus.tools.browser.standalone.google_search_ui import GoogleSearch
 from autobyteus.tools.browser.standalone.webpage_screenshot_taker import WebPageScreenshotTaker
 from autobyteus.tools.browser.standalone.webpage_reader import WebPageReader, CleaningMode
@@ -52,7 +52,7 @@ async def main():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     prompt_file = os.path.join(current_dir, "book_review_creator_v2.prompt")
     
-    prompt_builder = PromptBuilder.from_template(prompt_file).set_variable_value(name="book_topic", value="encouraging book for education")
+    prompt_builder = PromptBuilder.from_file(prompt_file).set_variable_value(name="book_topic", value="encouraging book for education")
 
     llm = ClaudeChatLLM(LLMModel.CLAUDE_3_5_SONNET)
     #llm = GeminiLLM()
@@ -62,7 +62,7 @@ async def main():
     tools = [
         GoogleSearch(cleaning_mode=CleaningMode.ULTIMATE),
         ReviewedBooksRetriever(),
-        WebPageReader(content_cleanup_level=CleaningMode.ULTIMATE),
+        WebPageReader(cleaning_mode=CleaningMode.ULTIMATE),
         ImageDownloader(),
         XiaohongshuPoster(xiaohongshu_account_name="Normy-光影旅程")
     ]
