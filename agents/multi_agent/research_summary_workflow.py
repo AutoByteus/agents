@@ -51,18 +51,18 @@ def setup_agent_group():
     webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT)#MistralLLM(model=LLMModel.MISTRAL_LARGE) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE)
     webpage_analyzer_prompt = PromptBuilder().from_file(webpage_analyzer_prompt)
     webpage_reader_tools = [WebPageReader()]
-    webpage_analyzer_agent = GroupAwareAgent("WebPageAnalyzerAgent", webpage_analyzer_prompt, webpage_analyzer_llm, webpage_reader_tools)
+    webpage_analyzer_agent = GroupAwareAgent("WebPageSummaryAgent", webpage_analyzer_prompt, webpage_analyzer_llm, webpage_reader_tools)
 
     # Set up SummaryAgent
-    summary_llm = GeminiLLM()
-    summary_prompt = os.path.join(current_dir, "summary_agent.prompt")
-    summary_prompt = PromptBuilder().from_file(summary_prompt)
-    summary_agent = GroupAwareAgent("SummarizationAgent", summary_prompt, summary_llm, [])
+    #summary_llm = GeminiLLM()
+    #summary_prompt = os.path.join(current_dir, "summary_agent.prompt")
+    #summary_prompt = PromptBuilder().from_file(summary_prompt)
+    #summary_agent = GroupAwareAgent("SummarizationAgent", summary_prompt, summary_llm, [])
 
     # Add agents to the group
     singleReplicaAgentOrchestrator.add_agent(google_search_agent)
     singleReplicaAgentOrchestrator.add_agent(webpage_analyzer_agent)
-    singleReplicaAgentOrchestrator.add_agent(summary_agent)
+    #singleReplicaAgentOrchestrator.add_agent(summary_agent)
 
     # Set up CoordinationAgent
     coordinator_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE) #ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET)

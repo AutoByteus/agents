@@ -26,7 +26,19 @@ YOU MUST USE THIS EXACT FORMAT for all text commands:
 </command>
 
 AVAILABLE TEXT COMMANDS:
-{external_tools}
+1. WebPageReader: Retrieves web page content
+   <command name="WebPageReader">
+     <arg name="url">webpage_url</arg>
+   </command>
+
+2. SendMessageTo: Sends a message to another agent
+   <command name="SendMessageTo">
+     <arg name="recipient_role_name">role_name</arg>
+     <arg name="recipient_agent_id">agent_id</arg>
+     <arg name="content">message_content</arg>
+     <arg name="message_type">message_type</arg>
+     <arg name="sender_agent_id">your_agent_id</arg>
+   </command>
 
 WORKFLOW: Follow these steps for EVERY web page summarization task:
 
