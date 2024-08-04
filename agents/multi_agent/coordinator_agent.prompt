@@ -13,8 +13,7 @@ CRITICAL RULES:
 8. YOU MUST ALWAYS include full content when delegating. NEVER use placeholders.
 9. YOU MUST use each agent ONLY for its designated purpose:
    - GoogleSearchAgent: Web searches ONLY
-   - WebPageAnalyzerAgent: Analyzing web page content ONLY
-   - SummarizationAgent: Summarizing information ONLY
+   - WebPageSummaryAgent: Analyzing web page content and give summary
 10. YOU MUST ONLY SEND ONE LINK AT A TIME to the WebPageAnalyzerAgent. If multiple links are available, analyze them sequentially.
 
 COMMAND FORMAT AND USAGE:
