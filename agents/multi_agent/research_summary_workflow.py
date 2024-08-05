@@ -48,7 +48,7 @@ def setup_agent_group():
 
     # Set up WebAnalyzerAgent
     webpage_analyzer_prompt = os.path.join(current_dir, "webpage_analyzer_agent.prompt")
-    webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT)#MistralLLM(model=LLMModel.MISTRAL_LARGE) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE)
+    webpage_analyzer_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE) # PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) # #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) ##MistralLLM(model=LLMModel.MISTRAL_LARGE) #
     webpage_analyzer_prompt = PromptBuilder().from_file(webpage_analyzer_prompt)
     webpage_reader_tools = [WebPageReader()]
     webpage_analyzer_agent = GroupAwareAgent("WebPageSummaryAgent", webpage_analyzer_prompt, webpage_analyzer_llm, webpage_reader_tools)
@@ -66,8 +66,8 @@ def setup_agent_group():
 
     # Set up CoordinationAgent
     coordinator_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE) #ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET)
-    coordinator_prompt = os.path.join(current_dir, "coordinator_agent.prompt")
-    coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value="what is AutoByteus")
+    coordinator_prompt = os.path.join(current_dir, "coordinator_agent_new.prompt")
+    coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value="wohunung mieten in Pankow zwieschen 600-900 Euros. mindestin zwei zimmer")
     coordinator_tools = []  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
 
     coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, coordinator_llm, coordinator_tools)
