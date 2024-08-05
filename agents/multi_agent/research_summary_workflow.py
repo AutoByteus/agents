@@ -40,7 +40,7 @@ def setup_agent_group():
 
     # Set up GoogleSearchAgent
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    google_search_prompt = os.path.join(current_dir, "google_search_agent.prompt")
+    google_search_prompt = os.path.join(current_dir, "google_search_agent_new.prompt")
     webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE)
     google_search_prompt = PromptBuilder().from_file(google_search_prompt)
     google_search_tools = [GoogleSearch()]
@@ -65,9 +65,9 @@ def setup_agent_group():
     #singleReplicaAgentOrchestrator.add_agent(summary_agent)
 
     # Set up CoordinationAgent
-    coordinator_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE) #ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET)
+    coordinator_llm = ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET) #MistralLLM(model=LLMModel.MISTRAL_LARGE)
     coordinator_prompt = os.path.join(current_dir, "coordinator_agent.prompt")
-    coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value="i want to know how much money i can get for HomeOffice Pauschale in Germany. I am software engineer, i work at home mostly")
+    coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value="how does Finanzamt calculate the tax deduction, i didnt get 1200 Pauschale for HomeOffice")
     coordinator_tools = []  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
 
     coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, coordinator_llm, coordinator_tools)
