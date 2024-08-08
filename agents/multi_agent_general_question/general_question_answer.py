@@ -48,7 +48,7 @@ def setup_agent_group():
     google_search_agent = GroupAwareAgent("GoogleSearchAgent", google_search_prompt, webpage_analyzer_llm, google_search_tools)
 
     # Set up WebAnalyzerAgent
-    webpage_analyzer_prompt = os.path.join(current_dir, "webpage_analyzer_agent_new.prompt")
+    webpage_analyzer_prompt = os.path.join(current_dir, "webpage_analyzer_agent_new_v2.prompt")
     webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) #MistralLLM(model=LLMModel.MISTRAL_LARGE) # PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) # #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) ##MistralLLM(model=LLMModel.MISTRAL_LARGE) #
     webpage_analyzer_prompt = PromptBuilder().from_file(webpage_analyzer_prompt)
     webpage_reader_tools = [WebPageReader(cleaning_mode=CleaningMode.CONTENT_FOCUSED)]
@@ -67,41 +67,10 @@ def setup_agent_group():
 
     # Set up CoordinationAgent
     coordinator_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE) #ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET) #
-    coordinator_prompt = os.path.join(current_dir, "coordinator_agent_new.prompt")
-    coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value='''I need to implement LLM for gemini. Here is my base classes. 
-                                                                                          from abc import ABC, abstractmethod
-
-class BaseLLM(ABC):
-    """
-    BaseLLM is an abstract base class that defines the common interface for all LLM integrations.
-    """
-
-    def initialize(self):
-        """
-        Initialize the BaseLLM object.
-        """
-        pass
-
-    @abstractmethod
-    def send_user_message(self, user_message, **kwargs):
-        """
-        send a user message and return the LLM's response.
-
-        :param user_message: The user message to be processed.
-        :type user_message: str
-        :param kwargs: Additional keyword arguments.
-        :type kwargs: dict
-        """
-        pass
-
-    @abstractmethod
-    async def cleanup(self):
-        """
-        Clean up resources used by the LLM.
-        This method should be called when the LLM is no longer needed.
-        """
-        pass
-                                                                                          
+    coordinator_prompt = os.path.join(current_dir, "coordinator_agent.prompt")
+    coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value=
+    '''
+    i want to apply for startup fund in Berlin, what preequisite should i have, and where and how i can apply for it.                                                                            
     ''')
     coordinator_tools = []  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
 
