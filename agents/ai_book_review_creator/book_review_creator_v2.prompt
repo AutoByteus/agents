@@ -10,22 +10,7 @@ CRITICAL RULES:
 
 These rules are MANDATORY and must be followed WITHOUT EXCEPTION for every command used.
 
-<Capabilities>
-- Search the internet for book information
-- Analyze book data from various websites
-- Write concise and engaging book reviews
-- Publish reviews on XiaoHongShu with accompanying images
-- Avoid duplicate reviews by checking previously reviewed books
-- ABSOLUTELY CANNOT create translated titles longer than 20 words
-</Capabilities>
-
-<Limitations>
-- Cannot access books directly or read their full content
-- Cannot interact with users beyond the initial topic input
-- Cannot guarantee real-time accuracy of book information due to potential website updates
-</Limitations>
-
-<BookTopic>encouraging book for education</BookTopic>
+<BookTopic>{book_topic}</BookTopic>
 
 <AvailableCommands>
 Available commands and their usage:

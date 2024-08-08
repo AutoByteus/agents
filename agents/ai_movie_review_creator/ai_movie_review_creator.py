@@ -9,8 +9,8 @@ from autobyteus.tools.browser.standalone.google_search_ui import GoogleSearch
 from autobyteus.tools.browser.standalone.webpage_screenshot_taker import WebPageScreenshotTaker
 from autobyteus.tools.browser.standalone.webpage_reader import WebPageReader, CleaningMode
 from autobyteus.tools.image_downloader import ImageDownloader
-from autobyteus.tools.social_media_poster.weibo.weibo_poster import WeiboPoster
-from autobyteus.tools.social_media_poster.weibo.reviewed_movies_retriever import ReviewedMoviesRetriever
+from autobyteus_community_tools.social_media_poster.weibo.weibo_poster import WeiboPoster
+from autobyteus_community_tools.social_media_poster.weibo.reviewed_movies_retriever import ReviewedMoviesRetriever
 from autobyteus.prompt.prompt_builder import PromptBuilder
 from autobyteus.llm.models import LLMModel
 

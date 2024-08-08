@@ -13,10 +13,10 @@ from autobyteus.tools.browser.standalone.google_search_ui import GoogleSearch
 from autobyteus.tools.browser.standalone.webpage_screenshot_taker import WebPageScreenshotTaker
 from autobyteus.tools.browser.standalone.webpage_reader import WebPageReader, CleaningMode
 from autobyteus.tools.image_downloader import ImageDownloader
-from autobyteus.tools.social_media_poster.weibo.weibo_poster import WeiboPoster
-from autobyteus.tools.social_media_poster.xiaohongshu.xiaohongshu_poster import XiaohongshuPoster
-from autobyteus.tools.social_media_poster.xiaohongshu.reviewed_books_retriever import ReviewedBooksRetriever
-from autobyteus.tools.social_media_poster.weibo.reviewed_movies_retriever import ReviewedMoviesRetriever
+from autobyteus_community_tools.social_media_poster.weibo.weibo_poster import WeiboPoster
+from autobyteus_community_tools.social_media_poster.xiaohongshu.xiaohongshu_poster import XiaohongshuPoster
+from autobyteus_community_tools.social_media_poster.xiaohongshu.reviewed_books_retriever import ReviewedBooksRetriever
+from autobyteus_community_tools.social_media_poster.weibo.reviewed_movies_retriever import ReviewedMoviesRetriever
 from autobyteus.prompt.prompt_builder import PromptBuilder
 from autobyteus.llm.models import LLMModel
 
@@ -52,7 +52,7 @@ async def main():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     prompt_file = os.path.join(current_dir, "book_review_creator_v2.prompt")
     
-    prompt_builder = PromptBuilder.from_file(prompt_file).set_variable_value(name="book_topic", value="encouraging book for education")
+    prompt_builder = PromptBuilder.from_file(prompt_file).set_variable_value(name="book_topic", value="encouraging book for students about colleauge study")
 
     llm = ClaudeChatLLM(LLMModel.CLAUDE_3_5_SONNET)
     #llm = GeminiLLM()
@@ -60,9 +60,9 @@ async def main():
     #llm = GroqLLM(model=GroqModel.LLAMA_3_1_70B_VERSATILE)
     #llm = MistralLLM(model = MistralModel.MISTRAL_LARGE)
     tools = [
-        GoogleSearch(cleaning_mode=CleaningMode.ULTIMATE),
+        GoogleSearch(cleaning_mode=CleaningMode.CONTENT_FOCUSED),
         ReviewedBooksRetriever(),
-        WebPageReader(cleaning_mode=CleaningMode.ULTIMATE),
+        WebPageReader(cleaning_mode=CleaningMode.CONTENT_FOCUSED),
         ImageDownloader(),
         XiaohongshuPoster(xiaohongshu_account_name="Normy-光影旅程")
     ]
