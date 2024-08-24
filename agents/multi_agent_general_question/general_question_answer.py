@@ -1,7 +1,7 @@
 import asyncio
 import os
 import logging
-from autobyteus.agent.group.single_replica_agent_orchestrator import SingleReplicaAgentOrchestrator
+from autobyteus.agent.orchestrator.single_replica_agent_orchestrator import SingleReplicaAgentOrchestrator
 from autobyteus.agent.group.group_aware_agent import GroupAwareAgent
 from autobyteus.agent.group.coordinator_agent import CoordinatorAgent
 from autobyteus.tools.browser.standalone.webpage_reader import WebPageReader, CleaningMode
@@ -41,17 +41,17 @@ def setup_agent_group():
 
     # Set up GoogleSearchAgent
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    google_search_prompt = os.path.join(current_dir, "google_search_agent_new.prompt")
-    webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE)
+    google_search_prompt = os.path.join(current_dir, "google_search_agent.prompt")
+    webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_70B_INSTRUCT) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) # ) ## #
     google_search_prompt = PromptBuilder().from_file(google_search_prompt)
     google_search_tools = [GoogleSearch()]
     google_search_agent = GroupAwareAgent("GoogleSearchAgent", google_search_prompt, webpage_analyzer_llm, google_search_tools)
 
     # Set up WebAnalyzerAgent
-    webpage_analyzer_prompt = os.path.join(current_dir, "webpage_analyzer_agent_new_v2.prompt")
-    webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) #MistralLLM(model=LLMModel.MISTRAL_LARGE) # PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) # #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) ##MistralLLM(model=LLMModel.MISTRAL_LARGE) #
+    webpage_analyzer_prompt = os.path.join(current_dir, "webpage_analyzer_agent_v2.prompt")
+    webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_70B_INSTRUCT) # # PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) #MistralLLM(model=LLMModel.MISTRAL_LARGE)#ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET) ## # #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) ##MistralLLM(model=LLMModel.MISTRAL_LARGE) #
     webpage_analyzer_prompt = PromptBuilder().from_file(webpage_analyzer_prompt)
-    webpage_reader_tools = [WebPageReader(cleaning_mode=CleaningMode.CONTENT_FOCUSED)]
+    webpage_reader_tools = [WebPageReader(cleaning_mode=CleaningMode.TEXT_CONTENT_FOCUSED)]
     webpage_analyzer_agent = GroupAwareAgent("WebContentAnalysisAgent", webpage_analyzer_prompt, webpage_analyzer_llm, webpage_reader_tools)
 
     # Set up SummaryAgent
@@ -66,13 +66,19 @@ def setup_agent_group():
     #singleReplicaAgentOrchestrator.add_agent(summary_agent)
 
     # Set up CoordinationAgent
-    coordinator_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE) #ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET) #
-    coordinator_prompt = os.path.join(current_dir, "coordinator_agent.prompt")
+    coordinator_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE) # #
+    #coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value=
+    #'''
+    #I need to do some experiements on my computer for NGS technology to do some experiements. But i dont know how to do that. Give me back 
+    #some instructionts, and perhaps some codes i do experiements with.
+    #''')
+    coordinator_prompt = os.path.join(current_dir, "coordinator_agent_v1.prompt")
     coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value=
     '''
-    i want to apply for startup fund in Berlin, what preequisite should i have, and where and how i can apply for it.                                                                            
+    Use simple words to explain what is digital twins?  
     ''')
     coordinator_tools = []  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
+
 
     coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, coordinator_llm, coordinator_tools)
     singleReplicaAgentOrchestrator.set_coordinator_agent(coordinator_agent)
