@@ -199,5 +199,4 @@ DO NOT continue until results are provided for each command.
 Now, complete the user's task by following these instructions carefully. Remember to execute only one command at a time, always use WebPageReader before WebElementTrigger, and wait for results after each command.
 
 
-<UserTask>{user_task}
-</UserTask>
+<UserTask>{user_task}</UserTask>

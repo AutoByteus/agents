@@ -75,7 +75,7 @@ def setup_agent_group():
     coordinator_prompt = os.path.join(current_dir, "coordinator_agent_v1.prompt")
     coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value=
     '''
-    Use simple words to explain what is digital twins?  
+     
     ''')
     coordinator_tools = []  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
 

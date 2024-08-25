@@ -17,6 +17,8 @@ from autobyteus_community_tools.social_media_poster.weibo.reviewed_movies_retrie
 from autobyteus.prompt.prompt_builder import PromptBuilder
 from autobyteus.llm.models import LLMModel
 
+from agent.web_navigation_agent import WebNavigationAgent
+
 
 def setup_logger():
     logger = logging.getLogger()
@@ -62,7 +64,7 @@ async def main():
         AskUserInput(),
     ]
 
-    agent = StandaloneAgent(role=role, prompt_builder= prompt_builder, llm=llm, tools=tools)
+    agent = WebNavigationAgent(role=role, prompt_builder= prompt_builder, llm=llm, tools=tools)
     await agent.run()
 
 if __name__ == "__main__":
