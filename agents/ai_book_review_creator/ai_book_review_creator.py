@@ -36,19 +36,19 @@ def setup_agent_group():
     
     # Topic Understanding Agent
     topic_understanding_prompt = PromptBuilder().from_file(os.path.join(current_dir, "GoogleSearchAgent.prompt"))
-    topic_understanding_agent = GroupAwareAgent("GoogleSearchAgent", topic_understanding_prompt, MistralLLM(model=LLMModel.MISTRAL_LARGE), [google_search, webpage_reader])
+    topic_understanding_agent = GroupAwareAgent("GoogleSearchAgent", topic_understanding_prompt, GeminiLLM(model=LLMModel.GEMINI_1_5_PRO), [google_search, webpage_reader])
     
     # Book Selection Agent
     book_selection_prompt = PromptBuilder().from_file(os.path.join(current_dir, "BookSelectionAgent.prompt"))
-    book_selection_agent = GroupAwareAgent("BookSelectionAgent", book_selection_prompt,MistralLLM(model=LLMModel.MISTRAL_LARGE), [google_search, ReviewedBooksRetriever()])
+    book_selection_agent = GroupAwareAgent("BookSelectionAgent", book_selection_prompt,GeminiLLM(model=LLMModel.GEMINI_1_5_PRO), [google_search, ReviewedBooksRetriever()])
     
     # Information Gathering Agent
     info_gathering_prompt = PromptBuilder().from_file(os.path.join(current_dir, "InformationGatheringAgent.prompt"))
-    info_gathering_agent = GroupAwareAgent("InformationGatheringAgent", info_gathering_prompt, MistralLLM(model=LLMModel.MISTRAL_LARGE), [google_search, webpage_reader])
+    info_gathering_agent = GroupAwareAgent("InformationGatheringAgent", info_gathering_prompt, GeminiLLM(model=LLMModel.GEMINI_1_5_PRO), [google_search, webpage_reader])
     
     # Review Writing Agent
     review_writing_prompt = PromptBuilder().from_file(os.path.join(current_dir, "ReviewWritingAgent.prompt"))
-    review_writing_agent = GroupAwareAgent("ReviewWritingAgent", review_writing_prompt, MistralLLM(model=LLMModel.MISTRAL_LARGE), [])
+    review_writing_agent = GroupAwareAgent("ReviewWritingAgent", review_writing_prompt, GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL), [])
     
     # Image Acquisition Agent
     #image_acquisition_prompt = PromptBuilder().from_file(os.path.join(current_dir, "ImageAcquisitionAgent.prompt"))
@@ -56,7 +56,7 @@ def setup_agent_group():
     
     # Publishing Agent
     publishing_prompt = PromptBuilder().from_file(os.path.join(current_dir, "PublishingAgent.prompt"))
-    publishing_agent = GroupAwareAgent("PublishingAgent", publishing_prompt, MistralLLM(model=LLMModel.MISTRAL_LARGE), [XiaohongshuPoster(xiaohongshu_account_name="Normy-光影旅程")])
+    publishing_agent = GroupAwareAgent("PublishingAgent", publishing_prompt, ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET), [XiaohongshuPoster(xiaohongshu_account_name="Normy-光影旅程")])
     
     # Add agents to the orchestrator
     for agent in [topic_understanding_agent, book_selection_agent, info_gathering_agent, review_writing_agent , publishing_agent]:
@@ -64,7 +64,7 @@ def setup_agent_group():
     
     # Set up Coordinator Agent
     coordinator_prompt = PromptBuilder().from_file(os.path.join(current_dir, "CoordinationAgent.prompt"))
-    coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, MistralLLM(model=LLMModel.MISTRAL_LARGE), [])
+    coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL), [])
     singleReplicaAgentOrchestrator.set_coordinator_agent(coordinator_agent)
     
     return singleReplicaAgentOrchestrator
