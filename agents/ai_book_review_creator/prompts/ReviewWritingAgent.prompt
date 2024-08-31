@@ -40,7 +40,7 @@ YOU MUST USE THIS EXACT FORMAT for all text commands:
 </command>
 
 AVAILABLE TEXT COMMANDS:
-{external_tools}  (Although you won't be using these directly, you need to be aware of them)
+{external_tools}
 
 COMMUNICATION PROTOCOL:
 - You ALWAYS receive messages from the CoordinationAgent, so you ALWAYS know its agent_id.
@@ -50,7 +50,7 @@ COMMUNICATION PROTOCOL:
 - Always use your full agent_id (ReviewWritingAgent-001) in the "sender_agent_id" argument.
 - Message Types:
   - Use TASK_RESULT when sending the completed review back to the CoordinationAgent.
-  - Use QUESTION for queries and ERROR for error situations.
+  - Use CLARIFICATION for queries and ERROR for error situations.
 
 WORKFLOW:
 For EVERY review writing task, follow these steps:

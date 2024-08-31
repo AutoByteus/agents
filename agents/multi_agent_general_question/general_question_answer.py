@@ -41,15 +41,17 @@ def setup_agent_group():
 
     # Set up GoogleSearchAgent
     current_dir = os.path.dirname(os.path.abspath(__file__))
+
+
     google_search_prompt = os.path.join(current_dir, "google_search_agent.prompt")
-    webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_70B_INSTRUCT) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) # ) ## #
+    webpage_analyzer_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE)  #GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL) #MistralLLM(model=LLMModel.MISTRAL_LARGE) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) # MistralLLM(model=LLMModel.MISTRAL_LARGE) # ## #
     google_search_prompt = PromptBuilder().from_file(google_search_prompt)
     google_search_tools = [GoogleSearch(cleaning_mode=CleaningMode.GOOGLE_SEARCH_RESULT)]
     google_search_agent = GroupAwareAgent("GoogleSearchAgent", google_search_prompt, webpage_analyzer_llm, google_search_tools)
 
     # Set up WebAnalyzerAgent
     webpage_analyzer_prompt = os.path.join(current_dir, "webpage_analyzer_agent_v2.prompt")
-    webpage_analyzer_llm = PerplexityLLM(LLMModel.LLAMA_3_1_70B_INSTRUCT) # # PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) #MistralLLM(model=LLMModel.MISTRAL_LARGE)#ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET) ## # #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) ##MistralLLM(model=LLMModel.MISTRAL_LARGE) #
+    webpage_analyzer_llm = GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL)#  MistralLLM(model=LLMModel.MISTRAL_LARGE) # # PerplexityLLM(LLMModel.LLAMA_3_1_SONAR_LARGE_128K_CHAT) #MistralLLM(model=LLMModel.MISTRAL_LARGE)#ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET) ## # #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) ##MistralLLM(model=LLMModel.MISTRAL_LARGE) #
     webpage_analyzer_prompt = PromptBuilder().from_file(webpage_analyzer_prompt)
     webpage_reader_tools = [WebPageReader(cleaning_mode=CleaningMode.TEXT_CONTENT_FOCUSED)]
     webpage_analyzer_agent = GroupAwareAgent("WebContentAnalysisAgent", webpage_analyzer_prompt, webpage_analyzer_llm, webpage_reader_tools)
@@ -66,7 +68,8 @@ def setup_agent_group():
     #singleReplicaAgentOrchestrator.add_agent(summary_agent)
 
     # Set up CoordinationAgent
-    coordinator_llm = ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET)  #MistralLLM(model=LLMModel.MISTRAL_LARGE) ## ## # #
+    coordinator_llm = GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL) #ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET)  # 
+    #MistralLLM(model=LLMModel.MISTRAL_LARGE) ## ## # #
     #coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value=
     #'''
     #I need to do some experiements on my computer for NGS technology to do some experiements. But i dont know how to do that. Give me back 
@@ -75,80 +78,9 @@ def setup_agent_group():
     coordinator_prompt = os.path.join(current_dir, "coordinator_agent_v1.prompt")
     coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value=
     '''
-    please read  the google slide API, and validate the following google slides implementation 
-    from googleapiclient.discovery import build
-from .google_slides_auth import GoogleSlidesAuth
-
-class GoogleSlidesPresentation:
-    def __init__(self):
-        self.auth = GoogleSlidesAuth()
-        self.service = build('slides', 'v1', credentials=self.auth.authenticate())
-        self.presentation_id = None
-
-    def create_presentation(self, title):
-        presentation = self.service.presentations().create(body={'title': title}).execute()
-        self.presentation_id = presentation.get('presentationId')
-        return self.presentation_id
-
-    def add_slide(self, layout):
-            requests = [
-                {
-                    'createSlide': {
-                        'slideLayoutReference': {
-                            'predefinedLayout': layout
-                        },
-                        'placeholderIdMappings': [
-                            {
-                                'layoutPlaceholder': {
-                                    'type': 'TITLE'
-                                },
-                                'objectId': 'TITLE'
-                            },
-                            {
-                                'layoutPlaceholder': {
-                                    'type': 'BODY'
-                                },
-                                'objectId': 'BODY'
-                            }
-                        ]
-                    }
-                }
-            ]
-            response = self.service.presentations().batchUpdate(
-                presentationId=self.presentation_id,
-                body={'requests': requests}
-            ).execute()
-            slide_id = response.get('replies')[0].get('createSlide').get('objectId')
-            return slide_id, 'TITLE', 'BODY'
-
-    def add_text_to_slide(self, slide_id, title_id, body_id, title, content):
-        requests = [
-            {
-                'insertText': {
-                    'objectId': title_id,
-                    'insertionIndex': 0,
-                    'text': title
-                }
-            },
-            {
-                'insertText': {
-                    'objectId': body_id,
-                    'insertionIndex': 0, 
-                    'text': content
-                }
-            }
-        ]
-        self.service.presentations().batchUpdate(
-            presentationId=self.presentation_id,
-            body={'requests': requests}
-        ).execute()
-
-    def open_presentation(self, presentation_id):
-        self.presentation_id = presentation_id
-
+    how to use AppleScript to interact with File Dialog opened by Google Chrome to automate file upload to website.
     ''')
     coordinator_tools = []  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
-
 
     coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, coordinator_llm, coordinator_tools)
     singleReplicaAgentOrchestrator.set_coordinator_agent(coordinator_agent)
@@ -168,6 +100,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-

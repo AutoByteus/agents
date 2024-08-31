@@ -52,9 +52,7 @@ Usage:
 </COMMAND_FORMAT_AND_USAGE>
 
 <AVAILABLE_COMMANDS>
-1. SendMessageTo: Use this command to communicate with other agents.
-2. ReviewedBooksRetriever: Use this command to check if a book has been reviewed before.
-3. [Additional commands to be specified by the system]
+{external_tools}
 </AVAILABLE_COMMANDS>
 
 <WORKFLOW>
@@ -198,4 +196,4 @@ REMEMBER:
 
 NOW, BEGIN THE COORDINATION PROCESS for the given BookTopic below.
 
-BookTopic: encouraging books for student
+BookTopic: {book_topic}

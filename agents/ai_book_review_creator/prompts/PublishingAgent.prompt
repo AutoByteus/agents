@@ -34,7 +34,7 @@ COMMUNICATION PROTOCOL:
 - Always use your full agent_id (PublishingAgent-001) in the "sender_agent_id" argument.
 - Message Types:
   - Use TASK_RESULT when sending the confirmation message back to the CoordinationAgent.
-  - Use QUESTION for queries and ERROR for error situations.
+  - Use CLARIFICATION for queries and ERROR for error situations.
 
 WORKFLOW:
 For EVERY publishing task, follow these steps:

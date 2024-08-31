@@ -28,8 +28,9 @@ def setup_logger():
 
 def setup_agent_group():
     singleReplicaAgentOrchestrator = SingleReplicaAgentOrchestrator()
-    current_dir = "/Users/qingwang/learning/agents/agents/ai_book_review_creator/prompts"
-    
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    current_dir = os.path.join(current_dir, "prompts")    
+
     # Common tools
     google_search = GoogleSearch(cleaning_mode=CleaningMode.GOOGLE_SEARCH_RESULT)
     webpage_reader = WebPageReader(cleaning_mode=CleaningMode.TEXT_CONTENT_FOCUSED)
@@ -37,10 +38,6 @@ def setup_agent_group():
     # Topic Understanding Agent
     topic_understanding_prompt = PromptBuilder().from_file(os.path.join(current_dir, "GoogleSearchAgent.prompt"))
     topic_understanding_agent = GroupAwareAgent("GoogleSearchAgent", topic_understanding_prompt, GeminiLLM(model=LLMModel.GEMINI_1_5_PRO), [google_search, webpage_reader])
-    
-    # Book Selection Agent
-    book_selection_prompt = PromptBuilder().from_file(os.path.join(current_dir, "BookSelectionAgent.prompt"))
-    book_selection_agent = GroupAwareAgent("BookSelectionAgent", book_selection_prompt,GeminiLLM(model=LLMModel.GEMINI_1_5_PRO), [google_search, ReviewedBooksRetriever()])
     
     # Information Gathering Agent
     info_gathering_prompt = PromptBuilder().from_file(os.path.join(current_dir, "InformationGatheringAgent.prompt"))
@@ -59,12 +56,12 @@ def setup_agent_group():
     publishing_agent = GroupAwareAgent("PublishingAgent", publishing_prompt, ClaudeChatLLM(model=LLMModel.CLAUDE_3_5_SONNET), [XiaohongshuPoster(xiaohongshu_account_name="Normy-光影旅程")])
     
     # Add agents to the orchestrator
-    for agent in [topic_understanding_agent, book_selection_agent, info_gathering_agent, review_writing_agent , publishing_agent]:
+    for agent in [topic_understanding_agent, info_gathering_agent, review_writing_agent , publishing_agent]:
         singleReplicaAgentOrchestrator.add_agent(agent)
     
     # Set up Coordinator Agent
     coordinator_prompt = PromptBuilder().from_file(os.path.join(current_dir, "CoordinationAgent.prompt"))
-    coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL), [])
+    coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL), [ReviewedBooksRetriever()])
     singleReplicaAgentOrchestrator.set_coordinator_agent(coordinator_agent)
     
     return singleReplicaAgentOrchestrator
