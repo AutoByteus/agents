@@ -44,10 +44,10 @@ def setup_agent_group():
 
 
     google_search_prompt = os.path.join(current_dir, "google_search_agent.prompt")
-    webpage_analyzer_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE)  #GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL) #MistralLLM(model=LLMModel.MISTRAL_LARGE) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) # MistralLLM(model=LLMModel.MISTRAL_LARGE) # ## #
+    google_search_llm = MistralLLM(model=LLMModel.MISTRAL_LARGE)  #GeminiLLM(model=LLMModel.GEMINI_1_5_PRO_EXPERIMENTAL) #MistralLLM(model=LLMModel.MISTRAL_LARGE) #GroqLLM(model=LLMModel.LLAMA_3_1_70B_VERSATILE) # MistralLLM(model=LLMModel.MISTRAL_LARGE) # ## #
     google_search_prompt = PromptBuilder().from_file(google_search_prompt)
     google_search_tools = [GoogleSearch(cleaning_mode=CleaningMode.GOOGLE_SEARCH_RESULT)]
-    google_search_agent = GroupAwareAgent("GoogleSearchAgent", google_search_prompt, webpage_analyzer_llm, google_search_tools)
+    google_search_agent = GroupAwareAgent("GoogleSearchAgent", google_search_prompt,  google_search_llm, google_search_tools)
 
     # Set up WebAnalyzerAgent
     webpage_analyzer_prompt = os.path.join(current_dir, "webpage_analyzer_agent_v2.prompt")
@@ -78,7 +78,7 @@ def setup_agent_group():
     coordinator_prompt = os.path.join(current_dir, "coordinator_agent_v1.prompt")
     coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value=
     '''
-    how to use AppleScript to interact with File Dialog opened by Google Chrome to automate file upload to website.
+    find out the shortcut
     ''')
     coordinator_tools = []  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
 
