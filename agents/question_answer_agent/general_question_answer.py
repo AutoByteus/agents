@@ -12,6 +12,7 @@ from autobyteus.llm.rpa.perplexity_llm import PerplexityLLM
 from autobyteus.llm.rpa.groq_llm import GroqLLM
 from autobyteus.llm.rpa.mistral_llm import MistralLLM
 from autobyteus.prompt.prompt_builder import PromptBuilder
+from autobyteus.tools.ask_user_input import AskUserInput
 from autobyteus.tools.browser.standalone.google_search_ui import GoogleSearch
 from autobyteus.tools.browser.standalone.webpage_reader import WebPageReader
 
@@ -78,9 +79,11 @@ def setup_agent_group():
     coordinator_prompt = os.path.join(current_dir, "coordinator_agent_v1.prompt")
     coordinator_prompt = PromptBuilder().from_file(coordinator_prompt).set_variable_value(name="user_task", value=
     '''
-    find out the shortcut
+     is there any python library which enables the copy and paste simuntaneiously in different applications? Its the system clipboard will contain the 
+     application name. So when i do paste, and i can paste the data from specific programs. The reason i ask this is because 
+     i have multiple programs which are doing copy and paste, i want to separate them, however, system clipboard is global resource.
     ''')
-    coordinator_tools = []  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
+    coordinator_tools = [AskUserInput()]  # The coordinator will use the SendMessageTo tool added by GroupAwareAgent
 
     coordinator_agent = CoordinatorAgent("CoordinationAgent", coordinator_prompt, coordinator_llm, coordinator_tools)
     singleReplicaAgentOrchestrator.set_coordinator_agent(coordinator_agent)
